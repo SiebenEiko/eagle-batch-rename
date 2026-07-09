@@ -1,0 +1,92 @@
+简体中文
+
+插件简述
+
+批量重命名是一款 Eagle 插件，用于对当前选中的素材按规则预览并批量修改名称。支持整体命名、文字替换、添加/删除字符，并提供 Synology Drive 命名兼容性体检，帮助在 NAS 同步前发现过长路径、非法字符和其他潜在风险。
+
+插件使用说明
+
+1. 在 Eagle 中选中需要处理的图片、视频或其他素材。
+2. 打开插件，点击「刷新选中」读取当前选择。
+3. 在「通用批量重命名」中选择规则：
+   「整体」：使用 * 插入原名称，使用 # 生成数字或字母序号。
+   「替换」：查找并替换文件名中的指定文字，也可留空用于删除。
+   「添加/删除」：添加前缀或后缀，也可以按位置插入、删除字符。
+4. 在右侧列表检查「预览」和「结果」。如出现重名、空名称、非法字符、结尾空格/点或过长名称，请先修正。
+5. 点击「开始重命名」。插件会显示逐项进度，并根据处理数量自动选择更合适的保存方式。
+6. 如需排查 NAS 同步问题，切换到「Synology Drive 体检」，可扫描选中项目或全库，并将风险项分批导入重命名列表处理。
+7. 任务运行中关闭窗口时，可选择继续等待或终止任务。已保存的项目不会回滚，未处理项目保持原名称。
+
+版本日志
+
+v1.0.0 - 2026-07-08
+
+读取 Eagle 当前选中项目，并在列表中预览、排序和移除。
+支持整体命名、文字替换、前缀/后缀、指定位置插入与删除。
+支持数字/字母序号、起始值、增量和补零；仅修改名称，不修改扩展名。
+新增重名、非法字符、空名称、结尾空格/点、名称长度等安全校验。
+新增自适应批量保存、逐项进度显示和任务终止确认。
+新增 Synology Drive / Windows 命名风险体检，并支持风险项分批导入。
+支持简体中文、繁体中文、英文，并跟随 Eagle 主题显示。
+
+繁體中文
+
+外掛簡述
+
+批次重新命名是一款 Eagle 外掛，可針對目前選取的素材依規則預覽並批次修改名稱。支援整體命名、文字取代、新增/刪除字元，並提供 Synology Drive 命名相容性檢查，協助在 NAS 同步前找出過長路徑、非法字元與其他潛在風險。
+
+外掛使用說明
+
+1. 在 Eagle 中選取需要處理的圖片、影片或其他素材。
+2. 開啟外掛，點擊「重新整理選取」讀取目前選取項目。
+3. 在「通用批次重新命名」中選擇規則：
+   「整體」：使用 * 插入原名稱，使用 # 產生數字或字母序號。
+   「取代」：尋找並取代檔名中的指定文字，也可留空用於刪除。
+   「新增/刪除」：新增前綴或後綴，也可以依位置插入、刪除字元。
+4. 在右側清單檢查「預覽」和「結果」。如出現重名、空名稱、非法字元、結尾空格/點或過長名稱，請先修正。
+5. 點擊「開始重新命名」。外掛會顯示逐項進度，並依處理數量自動選擇較合適的儲存方式。
+6. 如需排查 NAS 同步問題，切換到「Synology Drive 檢查」，可掃描選取項目或全庫，並將風險項分批匯入重新命名清單處理。
+7. 工作執行中關閉視窗時，可選擇繼續等待或終止工作。已儲存的項目不會回復，未處理項目會保持原名稱。
+
+版本紀錄
+
+v1.0.0 - 2026-07-08
+
+讀取 Eagle 目前選取項目，並在清單中預覽、排序和移除。
+支援整體命名、文字取代、前綴/後綴、指定位置插入與刪除。
+支援數字/字母序號、起始值、增量和補零；僅修改名稱，不修改副檔名。
+新增重名、非法字元、空名稱、結尾空格/點、名稱長度等安全檢查。
+新增自適應批次儲存、逐項進度顯示和工作終止確認。
+新增 Synology Drive / Windows 命名風險檢查，並支援風險項分批匯入。
+支援簡體中文、繁體中文、英文，並跟隨 Eagle 主題顯示。
+
+English
+
+Plugin Summary
+
+Batch Rename is an Eagle plugin for previewing rename rules and safely updating selected item names in bulk. It supports pattern-based naming, text replacement, add/remove operations, and a Synology Drive naming audit to catch path length, illegal character, and sync compatibility risks before NAS backup.
+
+Usage
+
+1. Select the images, videos, or other items you want to process in Eagle.
+2. Open the plugin and click “Refresh Selection” to load the current selection.
+3. Choose a rule in “General Batch Rename”:
+   “Pattern”: use * to insert the original name and # to generate a number or letter sequence.
+   “Replace”: find and replace specific text in names, or leave the replacement empty to delete it.
+   “Add / Remove”: add a prefix or suffix, or insert/delete characters by position.
+4. Check the “Preview” and “Result” columns. Fix duplicate names, empty names, illegal characters, trailing spaces/dots, or overly long names before running.
+5. Click “Start Rename”. The plugin shows item-by-item progress and automatically chooses a suitable save mode based on the batch size.
+6. To troubleshoot NAS sync issues, switch to “Synology Drive Audit”. You can scan the selection or the whole library, then import risky items into the rename list in batches.
+7. If you close the window while a task is running, you can keep waiting or stop the task. Already saved items are not rolled back; unprocessed items keep their original names.
+
+Version Log
+
+v1.0.0 - 2026-07-08
+
+Loaded, previewed, reordered, and removed Eagle selected items.
+Added pattern rename, text replacement, prefix/suffix, positional insert, and positional delete.
+Added number/letter sequences, start value, step value, and zero padding; only names are changed, extensions remain unchanged.
+Added safety checks for duplicate names, illegal characters, empty names, trailing spaces/dots, and name length.
+Added adaptive batch saving, item-level progress display, and task stop confirmation.
+Added Synology Drive / Windows naming risk audit with batch import for risky items.
+Added Simplified Chinese, Traditional Chinese, and English support with Eagle theme-aware display.

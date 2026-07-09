@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>批量重命名</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/plugin.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div>
+        <h1 data-i18n="appTitle">批量重命名</h1>
+        <p data-i18n="appDescription">读取 Eagle 当前多选项目，按规则预览并批量修改名称。</p>
+      </div>
+      <div class="header-actions">
+        <button id="refreshSelected" class="secondary-button" type="button" data-i18n="refreshSelected">刷新选中</button>
+      </div>
+    </header>
+
+    <nav class="module-tabs" role="tablist" aria-label="功能分类">
+      <button id="moduleRenameButton" class="module-button active" type="button" data-module="rename" data-i18n="moduleRename">通用批量重命名</button>
+      <button id="moduleNasButton" class="module-button" type="button" data-module="nas" data-i18n="moduleNas">Synology Drive 体检</button>
+    </nav>
+
+    <main id="renameModule" class="workspace module active">
+      <section class="rule-panel" aria-label="命名规则">
+        <div class="tabs" role="tablist">
+          <button class="tab-button active" type="button" data-tab="overall" data-i18n="tabOverall">整体</button>
+          <button class="tab-button" type="button" data-tab="replace" data-i18n="tabReplace">替换</button>
+          <button class="tab-button" type="button" data-tab="add-remove" data-i18n="tabAddRemove">添加/删除</button>
+        </div>
+
+        <div id="tab-overall" class="tab-panel active">
+          <label class="field">
+            <span data-i18n="overallRuleLabel">命名规则</span>
+            <input id="patternInput" type="text" value="*_#" placeholder="例如：作品_#，* 代表原名称，# 代表编号" data-i18n-placeholder="patternPlaceholder">
+          </label>
+
+          <div class="hint">
+            <div data-i18n="hintOriginal">使用 <code>*</code> 插入原名称。</div>
+            <div data-i18n="hintNumber">使用 <code>#</code> 插入数字或字母编号。</div>
+          </div>
+
+          <div class="grid-fields">
+            <label class="field">
+              <span data-i18n="startAt">开始于</span>
+              <input id="startInput" type="number" value="1" step="1">
+            </label>
+            <label class="field">
+              <span data-i18n="increment">增量</span>
+              <input id="stepInput" type="number" value="1" step="1">
+            </label>
+            <label class="field">
+              <span data-i18n="digits">位数</span>
+              <input id="digitsInput" type="number" value="2" min="1" step="1">
+            </label>
+          </div>
+
+          <label class="check-field">
+            <input id="padInput" type="checkbox" checked>
+            <span data-i18n="padZero">不足位数补 0</span>
+          </label>
+
+          <div class="inline-fields">
+            <label class="check-field">
+              <input id="letterInput" type="checkbox">
+              <span data-i18n="letterNumber">字母编号</span>
+            </label>
+            <select id="letterCaseInput" disabled>
+              <option value="upper" data-i18n="upper">大写</option>
+              <option value="lower" data-i18n="lower">小写</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="tab-replace" class="tab-panel">
+          <label class="field">
+            <span data-i18n="replaceFromLabel">把文件名中的字符</span>
+            <input id="replaceFromInput" type="text" placeholder="要查找的文本" data-i18n-placeholder="replaceFromPlaceholder">
+          </label>
+          <label class="field">
+            <span data-i18n="replaceToLabel">替换成</span>
+            <input id="replaceToInput" type="text" placeholder="替换后的文本，可留空表示删除" data-i18n-placeholder="replaceToPlaceholder">
+          </label>
+        </div>
+
+        <div id="tab-add-remove" class="tab-panel">
+          <label class="field">
+            <span data-i18n="prefixLabel">文件名前添加</span>
+            <input id="prefixInput" type="text" placeholder="前缀" data-i18n-placeholder="prefixPlaceholder">
+          </label>
+          <label class="field">
+            <span data-i18n="suffixLabel">文件名后添加</span>
+            <input id="suffixInput" type="text" placeholder="后缀" data-i18n-placeholder="suffixPlaceholder">
+          </label>
+
+          <label class="check-field separated">
+            <input id="insertEnabledInput" type="checkbox">
+            <span data-i18n="insertEnabled">扩展添加</span>
+          </label>
+          <div class="inline-fields">
+            <label class="field compact">
+              <span data-i18n="fromIndex">从第</span>
+              <input id="insertPositionInput" type="number" value="1" min="1" step="1" disabled>
+            </label>
+            <span class="suffix-text" data-i18n="insertPositionSuffix">个字符开始添加</span>
+          </div>
+          <label class="field">
+            <span data-i18n="insertTextLabel">添加字符串</span>
+            <input id="insertTextInput" type="text" disabled>
+          </label>
+
+          <label class="field separated">
+            <span data-i18n="removeTextLabel">删除文件名中的</span>
+            <input id="removeTextInput" type="text" placeholder="指定文本，留空则不处理" data-i18n-placeholder="removeTextPlaceholder">
+          </label>
+
+          <label class="check-field separated">
+            <input id="deleteRangeEnabledInput" type="checkbox">
+            <span data-i18n="deleteRange">扩展删除</span>
+          </label>
+          <div class="inline-fields">
+            <label class="field compact">
+              <span data-i18n="fromIndex">从第</span>
+              <input id="deleteStartInput" type="number" value="1" min="1" step="1" disabled>
+            </label>
+            <span class="suffix-text" data-i18n="deleteStartSuffix">个字符开始</span>
+          </div>
+          <div class="inline-fields">
+            <label class="field compact">
+              <span data-i18n="deleteCountLabel">共删除</span>
+              <input id="deleteCountInput" type="number" value="1" min="1" step="1" disabled>
+            </label>
+            <span class="suffix-text" data-i18n="deleteCountSuffix">个字符</span>
+          </div>
+        </div>
+
+        <div class="options-block">
+          <p id="performanceNote" class="performance-note">大量文件建议分批处理。</p>
+          <p class="ext-note" data-i18n="extManaged">仅修改名称，不修改扩展名。</p>
+        </div>
+      </section>
+
+      <section class="list-panel" aria-label="文件列表">
+        <div class="list-header">
+          <div>
+            <h2 data-i18n="fileList">文件列表</h2>
+            <p id="selectionSummary">未读取文件</p>
+          </div>
+          <div class="list-actions">
+            <button id="removeSelected" class="secondary-button" type="button" data-i18n="removeChecked">移除勾选</button>
+            <button id="clearList" class="secondary-button" type="button" data-i18n="clearAll">全部移除</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="check-column"></th>
+                <th data-i18n="thOriginal">原文件名</th>
+                <th data-i18n="thPreview">预览</th>
+                <th data-i18n="thResult">结果</th>
+              </tr>
+            </thead>
+            <tbody id="fileTableBody">
+              <tr>
+                <td colspan="4" class="empty-cell" data-i18n="readingSelected">正在读取 Eagle 当前选中项目...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reorder-actions">
+          <button id="moveTop" class="icon-button" type="button" title="移到顶部" data-i18n-title="moveTop">⤒</button>
+          <button id="moveUp" class="icon-button" type="button" title="上移" data-i18n-title="moveUp">↑</button>
+          <button id="moveDown" class="icon-button" type="button" title="下移" data-i18n-title="moveDown">↓</button>
+          <button id="moveBottom" class="icon-button" type="button" title="移到底部" data-i18n-title="moveBottom">⤓</button>
+        </div>
+      </section>
+    </main>
+
+    <main id="nasModule" class="nas-workspace module">
+      <section class="audit-panel">
+        <div class="audit-header">
+          <div>
+            <h2 data-i18n="nasTitle">Synology Drive 命名体检</h2>
+            <p data-i18n="nasDescription">扫描 Eagle 项目，找出可能导致 Synology Drive 同步失败的文件名和路径。</p>
+          </div>
+          <div class="audit-actions">
+            <button id="nasScanSelected" class="secondary-button" type="button" data-i18n="nasScanSelected">扫描选中</button>
+            <button id="nasScanAll" class="secondary-button" type="button" data-i18n="nasScanAll">扫描全库</button>
+            <button id="nasStopScan" class="secondary-button" type="button" disabled data-i18n="nasStopScan">停止扫描</button>
+            <button id="nasImportBatch" class="primary-button" type="button" disabled data-i18n="nasImportBatch">导入下一批</button>
+          </div>
+        </div>
+
+        <div class="audit-settings">
+          <label class="field compact">
+            <span data-i18n="nasBatchSize">每批导入</span>
+            <input id="nasBatchSizeInput" type="number" value="100" min="10" max="200" step="10">
+          </label>
+          <label class="field compact">
+            <span data-i18n="nasDisplayLimit">显示上限</span>
+            <input id="nasTopLimitInput" type="number" value="500" min="50" max="2000" step="50">
+          </label>
+          <p class="audit-rule-note" data-i18n="nasRulesNote">默认按 Synology Drive / Windows 兼容性排序：完整路径超过 247 字符、文件名超过 255 字符、含非法字符或以 ~ 开头会优先显示。</p>
+        </div>
+
+        <div id="nasStats" class="audit-stats" data-i18n="nasStatsInitial">尚未扫描。</div>
+
+        <div class="audit-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="check-column"></th>
+                <th data-i18n="nasThRisk">风险</th>
+                <th data-i18n="nasThName">文件名</th>
+                <th data-i18n="nasThNameLength">文件名长度</th>
+                <th data-i18n="nasThPathLength">路径长度</th>
+                <th data-i18n="nasThPath">路径</th>
+              </tr>
+            </thead>
+            <tbody id="nasTableBody">
+              <tr>
+                <td colspan="6" class="empty-cell" data-i18n="nasEmpty">先扫描选中项目或全库。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="progress-area">
+        <div class="footer-status">
+          <span id="statusText">准备就绪</span>
+          <span id="progressText">0 / 0</span>
+        </div>
+        <div id="progressTrack" class="progress-track" aria-hidden="true">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+      <button id="startRename" class="primary-button" type="button" data-i18n="startRename">开始重命名</button>
+    </footer>
+  </div>
+</body>
+</html>

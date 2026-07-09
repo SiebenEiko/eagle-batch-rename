@@ -1,0 +1,26 @@
+{
+  "id": "04144f6c-2124-492f-a73c-47a8415f7089",
+  "version": "1.0.0",
+  "platform": "all",
+  "arch": "all",
+  "name": "{{manifest.app.name}}",
+  "logo": "/logo.png",
+  "fallbackLanguage": "en",
+  "languages": [
+    "en",
+    "zh_CN",
+    "zh_TW"
+  ],
+  "keywords": [
+    "rename",
+    "batch",
+    "\u6279\u91cf",
+    "\u91cd\u547d\u540d"
+  ],
+  "main": {
+    "url": "index.html",
+    "width": 920,
+    "height": 600,
+    "devTools": false
+  }
+}
