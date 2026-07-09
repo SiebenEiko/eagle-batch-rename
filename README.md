@@ -17,11 +17,13 @@ It supports pattern-based naming, text replacement, prefix/suffix operations, po
 
 ## Screenshots
 
-Cover assets for Eagle plugin listing are available in `assets/upload/`:
+### General Batch Rename
 
-- `cover-en-1600x900.png`
-- `cover-zh-CN-1600x900.png`
-- `cover-zh-TW-1600x900.png`
+![General Batch Rename](assets/screenshots/general-batch-rename.png)
+
+### Synology Drive Audit
+
+![Synology Drive Audit](assets/screenshots/synology-drive-audit.png)
 
 ## Installation
 
@@ -72,4 +74,3 @@ If you are installing from source, keep the project structure unchanged and pack
 ## License
 
 This project is released under the MIT License.
-
